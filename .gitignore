@@ -1,0 +1,9 @@
+.venv
+.idea
+.env
+# Python cache files
+__pycache__/
+# Byte-compiled files
+*.py[cod]
+
+db.sqlite3
