@@ -65,3 +65,7 @@ def todo_delete(request, srno):
     obj = Tasks.objects.get(srno=srno)
     obj.delete()
     return redirect('/todo')
+
+def logout_view(request):
+    logout(request)
+    return redirect('/login')

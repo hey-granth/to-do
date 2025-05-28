@@ -15,9 +15,9 @@
     <!-- User Greeting Section -->
     <header class="user-header">
         <h1>Hello {{ user }}</h1>
-        <button type="button" class="logout-btn" title="Logout">
+        <a href="{% url 'logout_view' %}" class="logout-btn" title="Logout">
             <i class="fa-solid fa-sign-out-alt"></i>
-        </button>
+        </a>
     </header>
 
     <section class="signup-box" role="main">
