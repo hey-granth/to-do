@@ -60,3 +60,8 @@ def todo_edit(request, srno):
         return redirect('/todo')
 
     return render(request, 'todo_edit.html', {'obj': obj})
+
+def todo_delete(request, srno):
+    obj = Tasks.objects.get(srno=srno)
+    obj.delete()
+    return redirect('/todo')
