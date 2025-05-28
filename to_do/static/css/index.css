@@ -1,148 +1,288 @@
+/* Dark Mode Authentication Styles with CSS Variables */
+:root {
+    --bg-gradient-start: #1a1a2e;
+    --bg-gradient-end: #16213e;
+    --card-bg: rgba(30, 30, 46, 0.7);
+    --input-bg: rgba(30, 30, 46, 0.6);
+    --text-primary: #f8f9fa;
+    --text-secondary: #ced4da;
+    --text-muted: #adb5bd;
+    --accent-color: #7b68ee;
+    --accent-hover: #9381ff;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.25);
+    --error-color: #ff6b6b;
+    --success-color: #51cf66;
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --transition-speed: 0.2s;
+    --border-radius-lg: 16px;
+    --border-radius-md: 12px;
+    --border-radius-sm: 8px;
+}
+
+/* Base Styles */
 body {
     margin: 0;
     padding: 0;
-
+    font-family: var(--font-main);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--bg-gradient-start);
+    color: var(--text-primary);
+    line-height: 1.5;
 }
 
+/* Authentication Container */
 .signup-login {
-
-    background-color: #0f1f37;
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    min-height: 100vh;
     width: 100%;
-    height: 1080px;
-    overflow: hidden;
-    font-size: 24px;
-    color: #fff;
-    font-family: Poppins, system-ui;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-
-
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
 
-.signup-box{
-    background-color:#ffffff30;
-    height: 650px;
-    width: 520px;
-    border-radius: 25px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-
+/* Ambient Background Elements */
+.signup-login::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(123, 104, 238, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(123, 104, 238, 0.08) 0%, transparent 50%);
+    z-index: 0;
+    pointer-events: none;
+    animation: ambientBackground 20s ease infinite alternate;
 }
-.heading{
-    font-size: 40px;
+
+@keyframes ambientBackground {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(5deg); }
+}
+
+/* Form Containers */
+.signup-box,
+.signup-box1 {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 420px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 25px 50px var(--shadow-color);
+    position: relative;
+    z-index: 1;
+    padding: 40px 30px;
+    box-sizing: border-box;
+}
+
+.signup-box {
+    min-height: 580px;
+}
+
+.signup-box1 {
+    min-height: 500px;
+}
+
+/* Typography */
+.heading {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 24px 0;
+    padding: 0;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+b {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 8px 0;
+    padding: 0;
+    color: var(--text-secondary);
+    display: block;
+}
+
+/* Form Elements */
+.inp,
+.submit-button {
+    width: 100%;
+    height: 56px;
+    margin: 0 0 20px 0;
+    border-radius: var(--border-radius-md);
+    font-size: 16px;
+    font-weight: 400;
+    box-sizing: border-box;
+    transition: all var(--transition-speed) ease;
+}
+
+.inp {
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 0 20px;
+    outline: none;
+}
+
+.inp:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(123, 104, 238, 0.2);
+}
+
+.inp::placeholder {
+    color: var(--text-muted);
+}
+
+/* Label styling for better accessibility */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Button Styling */
+.submit-button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    cursor: pointer;
     font-weight: 600;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    margin-top: 20px;
+    letter-spacing: 0.025em;
+    position: relative;
+    overflow: hidden;
+}
 
+.submit-button:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(123, 104, 238, 0.3);
+}
 
+.submit-button:active {
+    transform: translateY(0);
 }
-b{
-    font-size: 20px;
-    font-weight: 500;
-    margin-left: 10px;
-    padding: 0;
-    text-align: center;
-    margin-top: 20px;
-}
-.inp{
-    /* margin-top: 10px; */
-    margin: 10px;
-    height: 50px;
-    width: 500px;
-    border-radius: 10px;
-    border: none;
-    padding-left: 20px;
-    font-size: 20px;
-    font-weight: 500;
-    color: #ffffff;
-    background-color: #ffffff30;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    box-sizing: border-box;
-}
-.inp::placeholder{
-    color: #ffffffa5;
 
+/* Focus states for accessibility */
+.submit-button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
 }
-.submit-button{
-    margin-top: 20px;
-    margin-left: 10px;
-    height: 50px;
-    width: 500px;
-    border-radius: 10px;
-    border: none;
-    padding-left: 20px;
-    font-size: 20px;
-    font-weight: 500;
-    color: #fff;
-    background-color: #252525;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    box-sizing: border-box;
-    cursor: pointer;
-}
-.submit-button:hover{
-    background-color: #ffff00bc;
-    color: #fff;
-}
-.line{
 
-    margin-top: 20px;
-    margin-left: 10px;
-    margin-bottom: 20px;
+/* Divider Line */
+.line {
+    width: 100%;
     height: 1px;
-    width: 500px;
+    margin: 24px 0;
+    background: linear-gradient(90deg, transparent 0%, var(--border-color) 50%, transparent 100%);
     border: none;
-    background-color: #ffffff;
-    border: 0px solid rgba(255, 255, 255, 0.5);
     box-sizing: border-box;
-
 }
-.anc{
+
+/* Links */
+.anc {
+    display: block;
     text-decoration: none;
-    color: #ffff00bc;
-    font-size: 20px;
+    color: var(--accent-color);
+    font-size: 15px;
     font-weight: 500;
-    margin-left: 45%;
-    padding: 0;
+    margin: 16px auto 0 auto;
     text-align: center;
-    margin-top: 20px;
     cursor: pointer;
+    transition: all var(--transition-speed) ease;
 }
 
-.signup-box1{
-    background-color:#ffffff30;
-    height: 555px;
-    width: 520px;
-    border-radius: 25px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-/* .sign{
-  text-decoration: none;
-  padding: 10px;
-} */
-
-.anca{
-    font-size: 25px;
+.anca {
+    font-size: 18px;
     margin-top: 7px;
-    /* margin-left: -68px; */
     margin-right: -41px;
 }
-a:hover{
-    color: #ffff00bc;
-}
-.heads{
-    display: flex;
-    justify-content: space-evenly;
-}
-.ancaa{
-    font-size: 25px;
+
+.ancaa {
+    font-size: 18px;
     margin-top: 29px;
     margin-left: -40px;
 }
 
-.completed{
-    color: #c5aeff;
+a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* Layout Helpers */
+.heads {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+/* Status Indicators */
+.completed {
+    color: var(--text-muted);
     text-decoration: line-through;
+    opacity: 0.7;
+}
+
+/* Form Field Groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Error Messages */
+.error-message {
+    color: var(--error-color);
+    font-size: 14px;
+    margin-top: -16px;
+    margin-bottom: 16px;
+    display: block;
+}
+
+/* Success Messages */
+.success-message {
+    color: var(--success-color);
+    font-size: 14px;
+    margin-top: 8px;
+    display: block;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .signup-box,
+    .signup-box1 {
+        padding: 30px 20px;
+    }
+
+    .heading {
+        font-size: 28px;
+    }
+
+    .inp,
+    .submit-button {
+        height: 52px;
+    }
+}
+
+/* Helper for screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
