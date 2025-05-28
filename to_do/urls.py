@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,3 +29,5 @@ urlpatterns = [
     path('todo_delete/<int:srno>', views.todo_delete, name="todo_delete"),
     path('logout_view/', views.logout_view, name='logout_view'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
