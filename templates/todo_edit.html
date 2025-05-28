@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cb792c0850.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div class="signup-login">
+    <div class="signup-box scr">
+        <div class="heading">Update Your Task</div>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="title" required class="todo-input inp"
+                   placeholder="Edit your task..." value="{{ obj.title|default:'' }}">
+            <input type="hidden" name="srno" value="{{ obj.srno|default:'' }}">
+
+            <input class="submit-button" type="submit" value="Update Task">
+        </form>
+
+        <a href="{% url 'todo' %}" style="margin-top: 1rem; display: inline-block; color: #ccc;">← Back to Tasks</a>
+    </div>
+</div>
+
+<script src="{% static 'js/todo.js' %}"></script>
+</body>
+
+</html>

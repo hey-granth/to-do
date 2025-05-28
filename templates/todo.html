@@ -4,31 +4,365 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>To Do</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do - Get Things Done</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
-{#    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" />#}
-{#    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Font Awesome 5 Brands:wght@400&display=swap" />#}
-{#    <style>#}
-{#        body {#}
-{#            background-color: red !important;#}
-{#            font-family: Arial, sans-serif;#}
-{#        }#}
-{#    </style>#}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    <script src="https://kit.fontawesome.com/cb792c0850.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="signup-login">
-    <div class="signup-box">
-        <form method="post">
+<main class="signup-login" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 20px;">
+    <!-- User Greeting Section -->
+    <header class="user-header">
+        <h1>Hello {{ user }}</h1>
+        <button type="button" class="logout-btn" title="Logout">
+            <i class="fa-solid fa-sign-out-alt"></i>
+        </button>
+    </header>
+
+    <section class="signup-box" role="main">
+        <form method="post" class="todo-form" novalidate>
             {% csrf_token %}
             <div class="heading">
                 Get Things Done!
             </div>
-            <div class="line"></div>
-            <input type="text" class="inp" name="title" placeholder="What are you slaying today?" required />
-            <input type="submit" class="submit-button" value="Add Task" />
 
+            <div class="line"></div>
+
+            <div class="input-group">
+                <label for="todo-input" class="sr-only">Enter your task</label>
+                <input
+                        type="text"
+                        id="todo-input"
+                        class="inp"
+                        name="title"
+                        placeholder="What are you slaying today?"
+                        required
+                        autocomplete="off"
+                        maxlength="200"
+                />
+                <input
+                        type="submit"
+                        class="submit-button"
+                        value="Add Task"
+                        title="Add new task"
+                />
+            </div>
         </form>
-    </div>
-</div>
+
+        {% if result %}
+            <section class="todo-list" aria-label="Your tasks">
+                <div class="todo-header">
+                    <h2 class="sr-only">Your Tasks</h2>
+                    <span class="todo-count">
+                        <i class="fa-solid fa-list-check"></i>
+                        {{ result|length }} task{{ result|length|pluralize }}
+                    </span>
+                </div>
+
+                <div class="todo-container">
+                    {% for todo in result %}
+                        <article class="Todo todo-item" data-todo-id="{{ todo.srno }}">
+                            <div class="todo-number">
+                                <span class="todo-badge">{{ todo.srno }}</span>
+                            </div>
+
+                            <div class="todo-content">
+                                <p class="todo-title">{{ todo.title }}</p>
+                            </div>
+
+                            <div class="todo-actions">
+                                <a href="{% url 'todo_edit' todo.srno %}"
+                                   class="action-btn edit-btn"
+                                   title="Edit task"
+                                   aria-label="Edit task">
+                                    <i class="fa-solid fa-edit"></i>
+                                </a>
+                                <a href="#"
+                                   class="action-btn delete-btn"
+                                   title="Delete task"
+                                   aria-label="Delete task">
+                                    <i class="fa-solid fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            </section>
+        {% else %}
+            <section class="empty-state" aria-label="No tasks">
+                <div class="empty-content">
+                    <i class="fa-solid fa-clipboard-check empty-icon"></i>
+                    <h3>All caught up!</h3>
+                    <p>Add your first task above to get started.</p>
+                </div>
+            </section>
+        {% endif %}
+    </section>
+</main>
+
+<style>
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .user-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .logout-btn {
+        background: rgba(123, 104, 238, 0.1);
+        border: 1px solid rgba(123, 104, 238, 0.2);
+        color: var(--accent-light);
+        font-size: 16px;
+        cursor: pointer;
+        padding: 10px 12px;
+        border-radius: var(--border-radius-md);
+        transition: all var(--transition-speed);
+        position: absolute;
+        right: -80px;
+    }
+
+    .logout-btn:hover {
+        color: var(--text-primary);
+        background: rgba(123, 104, 238, 0.2);
+        border-color: rgba(123, 104, 238, 0.4);
+        transform: translateY(-1px);
+    }
+
+    .logout-btn:focus {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 2px;
+    }
+
+    .todo-form {
+        margin-bottom: 32px;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .todo-list {
+        margin-top: 24px;
+    }
+
+    .todo-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .todo-count {
+        font-size: 14px;
+        color: var(--accent-light);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(123, 104, 238, 0.1);
+        padding: 8px 16px;
+        border-radius: var(--border-radius-md);
+        border: 1px solid rgba(123, 104, 238, 0.2);
+    }
+
+    .todo-container {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 8px;
+        margin-right: -8px;
+    }
+
+    .todo-container::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .todo-container::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+    }
+
+    .todo-container::-webkit-scrollbar-thumb {
+        background: var(--accent-color);
+        border-radius: 3px;
+        opacity: 0.6;
+    }
+
+    .todo-container::-webkit-scrollbar-thumb:hover {
+        opacity: 0.8;
+    }
+
+    .todo-item {
+        border-left: 3px solid transparent;
+        transition: all var(--transition-speed);
+    }
+
+    .todo-item:hover {
+        border-left-color: var(--accent-color);
+        background: rgba(123, 104, 238, 0.05);
+    }
+
+    .todo-number {
+        flex-shrink: 0;
+    }
+
+    .todo-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 28px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-primary);
+        background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+        border-radius: var(--border-radius-md);
+        padding: 0 8px;
+        box-shadow: 0 2px 4px rgba(123, 104, 238, 0.2);
+    }
+
+    .todo-content {
+        flex: 1;
+        padding: 0 16px;
+        min-width: 0;
+    }
+
+    .todo-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 500;
+        word-wrap: break-word;
+        line-height: 1.5;
+        color: var(--text-primary);
+    }
+
+    .todo-actions {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: var(--border-radius-md);
+        transition: all var(--transition-speed);
+        text-decoration: none;
+        color: var(--text-muted);
+        border: 1px solid transparent;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+        color: var(--text-primary);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-btn:focus {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 2px;
+    }
+
+    .edit-btn:hover {
+        background: rgba(81, 207, 102, 0.15);
+        color: var(--success-color);
+        border-color: rgba(81, 207, 102, 0.3);
+    }
+
+    .delete-btn:hover {
+        background: rgba(255, 107, 107, 0.15);
+        color: var(--error-color);
+        border-color: rgba(255, 107, 107, 0.3);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-muted);
+    }
+
+    .empty-content {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .empty-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        opacity: 0.6;
+        color: var(--accent-light);
+    }
+
+    .empty-state h3 {
+        margin: 0 0 8px 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    .empty-state p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .user-header {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .logout-btn {
+            position: static;
+            right: auto;
+        }
+
+        .Todo {
+            flex-direction: column;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .todo-content {
+            padding: 0;
+        }
+
+        .todo-actions {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .empty-state {
+            padding: 40px 20px;
+        }
+
+        .empty-icon {
+            font-size: 36px;
+        }
+    }
+</style>
 </body>
 </html>

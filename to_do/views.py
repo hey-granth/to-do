@@ -44,4 +44,19 @@ def todo(request):
         title = request.POST['title']
         obj = Tasks(title=title, user=request.user)
         obj.save()
-    return render(request, 'todo.html')
+
+        result = Tasks.objects.filter(user=request.user).order_by('-date')
+        return redirect('/todo', {'result': result})
+    result = Tasks.objects.filter(user=request.user).order_by('-date')
+    return render(request, 'todo.html', {'result': result})
+
+def todo_edit(request, srno):
+    obj = Tasks.objects.get(srno=srno)
+
+    if request.method == 'POST':
+        title = request.POST['title']
+        obj.title = title
+        obj.save()
+        return redirect('/todo')
+
+    return render(request, 'todo_edit.html', {'obj': obj})

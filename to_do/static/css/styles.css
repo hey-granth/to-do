@@ -149,7 +149,6 @@ form {
     color: var(--text-muted);
 }
 
-/* Submit Button */
 .submit-button {
     width: 100%;
     height: 56px;
@@ -184,7 +183,6 @@ form {
     outline-offset: 2px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .signup-login {
         padding: 16px;
@@ -214,14 +212,12 @@ form {
     }
 }
 
-/* Focus Management for Accessibility */
 .inp:focus,
 .submit-button:focus {
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
 }
 
-/* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -230,7 +226,6 @@ form {
     }
 }
 
-/* Additional utility classes for future use */
 .todo-input {
     outline: none;
     background: var(--input-bg);
