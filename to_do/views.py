@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from to_do.models import Tasks
+
 
 def signup(request):
     if request.method == 'POST':
@@ -36,3 +38,10 @@ def loginn(request):
             return render(request, 'login.html')
 
     return render(request, 'login.html')
+
+def todo(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        obj = Tasks(title=title, user=request.user)
+        obj.save()
+    return render(request, 'todo.html')
