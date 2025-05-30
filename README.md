@@ -54,7 +54,7 @@ A clean, user-friendly To-Do list web application built with Django. Users can s
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/your-username/your-repo.git
+   git clone https://github.com/hey-granth/to-do.git
    cd to-do
    ```
 
