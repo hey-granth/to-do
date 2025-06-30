@@ -115,7 +115,7 @@ A clean, user-friendly To-Do list web application built with Django. Users can s
 
 ## 🧑‍💻 Author
 
-**Your Name**  
+**Granth Agarwal**  
 GitHub: [@hey-granth](https://github.com/hey-granth)
 
 --- 
